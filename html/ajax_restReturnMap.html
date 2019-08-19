@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+    </script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<body>
+    <script>
+        $(function () {
+            i = 0;
+            $("button").click(function () {
+                $.get("http://localhost:8080/remote/openweather", function (list) {
+                    for (var flag = 0; flag < 8; flag++) {
+                        temp = list.list[i].main.temp - 273.15;
+                        pressure = list.list[i].main.pressure;
+                        if (list.list[i].weather["0"].main == "Clouds") {
+                            $("tbody").append("<tr><td>" + list.list[i].dt_txt +
+                                "</td><td>" + temp.toFixed(2) + "℃ \n" + pressure + "hPa" +
+                                "</td><td>" +
+                                '<img src="D:/testboot/src/main/resources/static/cloud.png">' +
+                                "</td><td>" +
+                                "Speed : " + list.list[i].wind.speed + "m/s\nDegree : " +
+                                list
+                                .list[i].wind.deg + "˚" +
+                                "</td></tr>");
+                            i += 3;
+                        } else if (list.list[i].weather["0"].main == "Clear") {
+                            $("tbody").append("<tr><td>" + list.list[i].dt_txt +
+                                "</td><td>" + temp.toFixed(2) + "℃ \n" + pressure + "hPa" +
+                                "</td><td>" +
+                                '<img src="D:/testboot/src/main/resources/static/clear.png">' +
+                                "</td><td>" +
+                                "Speed : " + list.list[i].wind.speed + "m/s\nDegree : " +
+                                list
+                                .list[i].wind.deg + "˚" +
+                                "</td></tr>");
+                            i += 3;
+                        } else {
+                            $("tbody").append("<tr><td>" + list.list[i].dt_txt +
+                                "</td><td>" + temp.toFixed(2) + "℃ \n" + pressure + "hPa" +
+                                "</td><td>" +
+                                '<img src="D:/testboot/src/main/resources/static/rain.png">' +
+                                "</td><td>" +
+                                "Speed : " + list.list[i].wind.speed + "m/s\nDegree : " +
+                                list
+                                .list[i].wind.deg + "˚" +
+                                "</td></tr>");
+                            i += 3;
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+
+    <button type="button">Click</button>
+    <table class="table col-7" style="text-align: center">
+        <tbody>
+            <tr>
+                <th>Date</th>
+                <th>Info</th>
+                <th>Weather</th>
+                <th>Wind</th>
+            </tr>
+
+            <tr>
+            </tr>
+        </tbody>
+    </table>
+</body>
+
+</html>
